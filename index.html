@@ -12,20 +12,54 @@
             padding: 20px;
         }
         .container {
+            max-width: 900px;
+            margin: auto;
             background-color: #fff;
             padding: 20px;
-            border-radius: 5px;
-            max-width: 600px;
-            margin: auto;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-bottom: 20px;
         }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f9f9f9;
+        }
+        .highlight {
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+            text-align: center;
+        }
+        .note {
+            font-size: 14px;
+            color: #555;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .input-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         label {
             display: block;
@@ -34,122 +68,118 @@
         }
         input[type="number"] {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             font-size: 16px;
-            box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
         }
         button {
-            padding: 10px 15px;
-            font-size: 16px;
-            cursor: pointer;
+            display: block;
             width: 100%;
-            background-color: #007BFF;
-            color: white;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
             border: none;
             border-radius: 4px;
-            transition: background-color 0.3s ease;
+            cursor: pointer;
         }
         button:hover {
             background-color: #0056b3;
-        }
-        #result {
-            margin-top: 20px;
-        }
-        #result p {
-            font-size: 16px;
-            margin: 8px 0;
-        }
-        .highlight {
-            font-weight: bold;
-            color: #28a745;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Calcolatore Banca 2 Condizioni</h1>
-        <div class="input-group">
-            <label for="importoPuntata">Importo Puntata (€):</label>
-            <input type="number" id="importoPuntata" placeholder="Inserisci l'importo puntata" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="importoBonus">Importo Bonus Rimborso (€):</label>
-            <input type="number" id="importoBonus" placeholder="Inserisci il bonus rimborso" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="quotaPuntata">Quota Puntata:</label>
-            <input type="number" id="quotaPuntata" placeholder="Inserisci la quota puntata" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="quotaBanca">Quota Banca:</label>
-            <input type="number" id="quotaBanca" placeholder="Inserisci la quota banca" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="commissioneBanca">Commissione Banca (%):</label>
-            <input type="number" id="commissioneBanca" placeholder="Inserisci la commissione banca" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="quotaCond1">Quota Condizione 1:</label>
-            <input type="number" id="quotaCond1" placeholder="Inserisci la quota condizione 1" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="commissioneCond1">Commissione Condizione 1 (%):</label>
-            <input type="number" id="commissioneCond1" placeholder="Inserisci la commissione condizione 1" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="quotaCond2">Quota Condizione 2:</label>
-            <input type="number" id="quotaCond2" placeholder="Inserisci la quota condizione 2" step="0.01">
-        </div>
-        <div class="input-group">
-            <label for="commissioneCond2">Commissione Condizione 2 (%):</label>
-            <input type="number" id="commissioneCond2" placeholder="Inserisci la commissione condizione 2" step="0.01">
-        </div>
-        <button onclick="calcola()">Calcola</button>
 
-        <div id="result">
-            <h2>Risultati:</h2>
-            <p id="banca">Banca: <span class="highlight"></span></p>
-            <p id="responsabilitaBanca">Responsabilità Banca: <span class="highlight"></span></p>
-            <p id="bancaCond1">Banca Condizione 1: <span class="highlight"></span></p>
-            <p id="responsabilitaCond1">Responsabilità Condizione 1: <span class="highlight"></span></p>
-            <p id="bancaCond2">Banca Condizione 2: <span class="highlight"></span></p>
-            <p id="responsabilitaCond2">Responsabilità Condizione 2: <span class="highlight"></span></p>
-            <p id="guadagnoAtteso">Guadagno Atteso: <span class="highlight"></span></p>
+        <div class="input-section">
+            <h2>Input</h2>
+            <div class="input-group">
+                <label for="importoPuntata">Importo Puntata (€):</label>
+                <input type="number" id="importoPuntata" placeholder="Inserisci l'importo puntata" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="importoBonus">Importo Bonus Rimborso (€):</label>
+                <input type="number" id="importoBonus" placeholder="Inserisci il bonus rimborso" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="quotaPuntata">Quota Puntata:</label>
+                <input type="number" id="quotaPuntata" placeholder="Inserisci la quota puntata" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="quotaBanca">Quota Banca:</label>
+                <input type="number" id="quotaBanca" placeholder="Inserisci la quota banca" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="commissioneBanca">Commissione Banca (%):</label>
+                <input type="number" id="commissioneBanca" placeholder="Inserisci la commissione banca" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="quotaCond1">Quota Condizione 1:</label>
+                <input type="number" id="quotaCond1" placeholder="Inserisci la quota condizione 1" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="commissioneCond1">Commissione Condizione 1 (%):</label>
+                <input type="number" id="commissioneCond1" placeholder="Inserisci la commissione condizione 1" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="quotaCond2">Quota Condizione 2:</label>
+                <input type="number" id="quotaCond2" placeholder="Inserisci la quota condizione 2" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="commissioneCond2">Commissione Condizione 2 (%):</label>
+                <input type="number" id="commissioneCond2" placeholder="Inserisci la commissione condizione 2" step="0.01">
+            </div>
+            <button onclick="calcola()">Calcola</button>
         </div>
+
+        <h2>Risultati</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenari</th>
+                    <th>Bookmaker</th>
+                    <th>Betfair</th>
+                    <th>Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Puntata vince, condizioni no</td>
+                    <td id="puntataVinceBookmaker">-</td>
+                    <td id="puntataVinceBetfair">-</td>
+                    <td id="puntataVinceTotale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 sì e condizione 2 no</td>
+                    <td id="cond1Bookmaker">-</td>
+                    <td id="cond1Betfair">-</td>
+                    <td id="cond1Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 no e condizione 2 sì</td>
+                    <td id="cond2Bookmaker">-</td>
+                    <td id="cond2Betfair">-</td>
+                    <td id="cond2Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizioni no</td>
+                    <td id="condNoBookmaker">-</td>
+                    <td id="condNoBetfair">-</td>
+                    <td id="condNoTotale" class="highlight">-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="note">Nota LT: Le due condizioni devono essere indipendenti (es. 0-0 o 1-1).</p>
     </div>
 
     <script>
         function calcola() {
-            // Recupero input
-            var importoPuntata = parseFloat(document.getElementById('importoPuntata').value);
-            var importoBonus = parseFloat(document.getElementById('importoBonus').value);
-            var quotaPuntata = parseFloat(document.getElementById('quotaPuntata').value);
-            var quotaBanca = parseFloat(document.getElementById('quotaBanca').value);
-            var commissioneBanca = parseFloat(document.getElementById('commissioneBanca').value) / 100;
-            var quotaCond1 = parseFloat(document.getElementById('quotaCond1').value);
-            var commissioneCond1 = parseFloat(document.getElementById('commissioneCond1').value) / 100;
-            var quotaCond2 = parseFloat(document.getElementById('quotaCond2').value);
-            var commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100;
-
-            // Calcoli
-            var banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
-            var responsabilitaBanca = banca * (quotaBanca - 1);
-            var bancaCond1 = importoBonus / (quotaCond1 - commissioneCond1);
-            var responsabilitaCond1 = bancaCond1 * (quotaCond1 - 1);
-            var bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
-            var responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
-            var guadagnoAtteso = importoBonus - responsabilitaBanca - responsabilitaCond1 - responsabilitaCond2;
-
-            // Output
-            document.getElementById('banca').innerHTML = 'Banca: € ' + banca.toFixed(2);
-            document.getElementById('responsabilitaBanca').innerHTML = 'Responsabilità Banca: € ' + responsabilitaBanca.toFixed(2);
-            document.getElementById('bancaCond1').innerHTML = 'Banca Condizione 1: € ' + bancaCond1.toFixed(2);
-            document.getElementById('responsabilitaCond1').innerHTML = 'Responsabilità Condizione 1: € ' + responsabilitaCond1.toFixed(2);
-            document.getElementById('bancaCond2').innerHTML = 'Banca Condizione 2: € ' + bancaCond2.toFixed(2);
-            document.getElementById('responsabilitaCond2').innerHTML = 'Responsabilità Condizione 2: € ' + responsabilitaCond2.toFixed(2);
-            document.getElementById('guadagnoAtteso').innerHTML = 'Guadagno Atteso: € ' + guadagnoAtteso.toFixed(2);
+            // Qui puoi implementare i calcoli dei risultati.
+            // Aggiungi i calcoli necessari e aggiorna le celle con i rispettivi ID.
         }
     </script>
 </body>
