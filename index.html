@@ -19,10 +19,37 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        h1 {
+        h1, h2 {
             text-align: center;
             margin-bottom: 20px;
             color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f9f9f9;
+        }
+        .highlight {
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+            text-align: center;
+        }
+        .note {
+            font-size: 14px;
+            color: #555;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
         }
         .input-group {
             margin-bottom: 15px;
@@ -39,14 +66,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-        }
-        .output {
-            margin-top: 5px;
-            font-size: 14px;
-            color: #155724;
-            background-color: #d4edda;
-            padding: 5px;
-            border-radius: 4px;
         }
         button {
             display: block;
@@ -76,8 +95,6 @@
             <label for="quotaPuntata">Quota Puntata:</label>
             <input type="number" id="quotaPuntata" placeholder="Inserisci la quota puntata" step="0.01">
         </div>
-
-        <h2>Banca Principale</h2>
         <div class="input-group">
             <label for="quotaBanca">Quota Banca:</label>
             <input type="number" id="quotaBanca" placeholder="Inserisci la quota banca" step="0.01">
@@ -86,10 +103,10 @@
             <label for="commissioneBanca">Commissione Banca (%):</label>
             <input type="number" id="commissioneBanca" placeholder="Inserisci la commissione banca" step="0.01">
         </div>
-        <div class="output" id="bancaOutput">Banca: €0.00</div>
-        <div class="output" id="responsabilitaOutput">Responsabilità: €0.00</div>
-
-        <h2>Banca Condizione 1</h2>
+        <div class="input-group">
+            <label for="importoBonus">Importo Bonus (€):</label>
+            <input type="number" id="importoBonus" placeholder="Inserisci l'importo bonus" step="0.01">
+        </div>
         <div class="input-group">
             <label for="quotaCond1">Quota Condizione 1:</label>
             <input type="number" id="quotaCond1" placeholder="Inserisci la quota condizione 1" step="0.01">
@@ -98,10 +115,6 @@
             <label for="commissioneCond1">Commissione Condizione 1 (%):</label>
             <input type="number" id="commissioneCond1" placeholder="Inserisci la commissione condizione 1" step="0.01">
         </div>
-        <div class="output" id="bancaCond1Output">Banca Condizione 1: €0.00</div>
-        <div class="output" id="responsabilitaCond1Output">Responsabilità Condizione 1: €0.00</div>
-
-        <h2>Banca Condizione 2</h2>
         <div class="input-group">
             <label for="quotaCond2">Quota Condizione 2:</label>
             <input type="number" id="quotaCond2" placeholder="Inserisci la quota condizione 2" step="0.01">
@@ -110,43 +123,112 @@
             <label for="commissioneCond2">Commissione Condizione 2 (%):</label>
             <input type="number" id="commissioneCond2" placeholder="Inserisci la commissione condizione 2" step="0.01">
         </div>
-        <div class="output" id="bancaCond2Output">Banca Condizione 2: €0.00</div>
-        <div class="output" id="responsabilitaCond2Output">Responsabilità Condizione 2: €0.00</div>
 
         <button onclick="calcola()">Calcola</button>
+
+        <h2>Risultati: Tabella Scenari</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenari</th>
+                    <th>Bookmaker</th>
+                    <th>Betfair</th>
+                    <th>Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Puntata vince, condizioni no</td>
+                    <td id="puntataVinceBookmaker">-</td>
+                    <td id="puntataVinceBetfair">-</td>
+                    <td id="puntataVinceTotale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 sì e condizione 2 no</td>
+                    <td id="cond1Bookmaker">-</td>
+                    <td id="cond1Betfair">-</td>
+                    <td id="cond1Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 no e condizione 2 sì</td>
+                    <td id="cond2Bookmaker">-</td>
+                    <td id="cond2Betfair">-</td>
+                    <td id="cond2Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizioni no</td>
+                    <td id="condNoBookmaker">-</td>
+                    <td id="condNoBetfair">-</td>
+                    <td id="condNoTotale" class="highlight">-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Risultati: Dettagli Banca e Responsabilità</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Valore (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Banca</td>
+                    <td id="banca">-</td>
+                </tr>
+                <tr>
+                    <td>Responsabilità</td>
+                    <td id="responsabilita">-</td>
+                </tr>
+                <tr>
+                    <td>Banca Condizione 1</td>
+                    <td id="bancaCond1">-</td>
+                </tr>
+                <tr>
+                    <td>Responsabilità Condizione 1</td>
+                    <td id="responsabilitaCond1">-</td>
+                </tr>
+                <tr>
+                    <td>Banca Condizione 2</td>
+                    <td id="bancaCond2">-</td>
+                </tr>
+                <tr>
+                    <td>Responsabilità Condizione 2</td>
+                    <td id="responsabilitaCond2">-</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
         function calcola() {
             // Recupero input
-            var importoPuntata = parseFloat(document.getElementById('importoPuntata').value) || 0;
-            var quotaPuntata = parseFloat(document.getElementById('quotaPuntata').value) || 0;
-            var quotaBanca = parseFloat(document.getElementById('quotaBanca').value) || 0;
-            var commissioneBanca = parseFloat(document.getElementById('commissioneBanca').value) / 100 || 0;
-            var quotaCond1 = parseFloat(document.getElementById('quotaCond1').value) || 0;
-            var commissioneCond1 = parseFloat(document.getElementById('commissioneCond1').value) / 100 || 0;
-            var quotaCond2 = parseFloat(document.getElementById('quotaCond2').value) || 0;
-            var commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100 || 0;
+            const importoPuntata = parseFloat(document.getElementById('importoPuntata').value) || 0;
+            const quotaPuntata = parseFloat(document.getElementById('quotaPuntata').value) || 0;
+            const quotaBanca = parseFloat(document.getElementById('quotaBanca').value) || 0;
+            const commissioneBanca = parseFloat(document.getElementById('commissioneBanca').value) / 100 || 0;
+            const importoBonus = parseFloat(document.getElementById('importoBonus').value) || 0;
+            const quotaCond1 = parseFloat(document.getElementById('quotaCond1').value) || 0;
+            const commissioneCond1 = parseFloat(document.getElementById('commissioneCond1').value) / 100 || 0;
+            const quotaCond2 = parseFloat(document.getElementById('quotaCond2').value) || 0;
+            const commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100 || 0;
 
             // Calcoli Banca
-            var banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
-            var responsabilita = banca * (quotaBanca - 1);
+            const banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
+            const responsabilita = banca * (quotaBanca - 1);
 
             // Calcoli Condizione 1
-            var bancaCond1 = importoPuntata / (quotaCond1 - commissioneCond1);
-            var responsabilitaCond1 = bancaCond1 * (quotaCond1 - 1);
+            const bancaCond1 = importoBonus / (quotaCond1 - commissioneCond1);
+            const responsabilitaCond1 = bancaCond1 * (quotaCond1 - 1);
 
             // Calcoli Condizione 2
-            var bancaCond2 = importoPuntata / (quotaCond2 - commissioneCond2);
-            var responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
+            const bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
+            const responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
 
-            // Aggiorna risultati
-            document.getElementById('bancaOutput').innerText = "Banca: €" + banca.toFixed(2);
-            document.getElementById('responsabilitaOutput').innerText = "Responsabilità: €" + responsabilita.toFixed(2);
-            document.getElementById('bancaCond1Output').innerText = "Banca Condizione 1: €" + bancaCond1.toFixed(2);
-            document.getElementById('responsabilitaCond1Output').innerText = "Responsabilità Condizione 1: €" + responsabilitaCond1.toFixed(2);
-            document.getElementById('bancaCond2Output').innerText = "Banca Condizione 2: €" + bancaCond2.toFixed(2);
-            document.getElementById('responsabilitaCond2Output').innerText = "Responsabilità Condizione 2: €" + responsabilitaCond2.toFixed(2);
+            // Aggiorna tabella scenari
+            document.getElementById('puntataVinceBookmaker').innerText = banca.toFixed(2);
+            document.getElementById('puntataVinceBetfair').innerText = responsabilita.toFixed(2);
         }
     </script>
 </body>
