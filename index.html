@@ -43,14 +43,6 @@
             font-weight: bold;
             text-align: center;
         }
-        .note {
-            font-size: 14px;
-            color: #555;
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            padding: 10px;
-            border-radius: 5px;
-        }
         .input-group {
             margin-bottom: 15px;
         }
@@ -126,7 +118,7 @@
 
         <button onclick="calcola()">Calcola</button>
 
-        <h2>Risultati</h2>
+        <h2>Risultati: Dettagli Banca e Responsabilità</h2>
         <table>
             <thead>
                 <tr>
@@ -161,6 +153,44 @@
                 </tr>
             </tbody>
         </table>
+
+        <h2>Risultati: Tabella Scenari</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenari</th>
+                    <th>Bookmaker</th>
+                    <th>Betfair</th>
+                    <th>Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Puntata vince, condizioni no</td>
+                    <td id="puntataVinceBookmaker">-</td>
+                    <td id="puntataVinceBetfair">-</td>
+                    <td id="puntataVinceTotale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 sì e condizione 2 no</td>
+                    <td id="cond1Bookmaker">-</td>
+                    <td id="cond1Betfair">-</td>
+                    <td id="cond1Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 no e condizione 2 sì</td>
+                    <td id="cond2Bookmaker">-</td>
+                    <td id="cond2Betfair">-</td>
+                    <td id="cond2Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizioni no</td>
+                    <td id="condNoBookmaker">-</td>
+                    <td id="condNoBetfair">-</td>
+                    <td id="condNoTotale" class="highlight">-</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
@@ -175,7 +205,7 @@
             const quotaCond2 = parseFloat(document.getElementById('quotaCond2').value) || 0;
             const commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100 || 0;
 
-            // Calcoli
+            // Calcoli Banca e Responsabilità
             const banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
             const responsabilita = banca * (quotaBanca - 1);
             const bancaCond1 = importoBonus / (quotaCond1 - commissioneCond1);
@@ -183,13 +213,47 @@
             const bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
             const responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
 
-            // Aggiorna risultati
+            // Aggiornamento tabella Banca
             document.getElementById('banca').innerText = banca.toFixed(2);
             document.getElementById('responsabilita').innerText = responsabilita.toFixed(2);
             document.getElementById('bancaCond1').innerText = bancaCond1.toFixed(2);
             document.getElementById('responsabilitaCond1').innerText = responsabilitaCond1.toFixed(2);
             document.getElementById('bancaCond2').innerText = bancaCond2.toFixed(2);
             document.getElementById('responsabilitaCond2').innerText = responsabilitaCond2.toFixed(2);
+
+            // Calcoli Scenari
+            const puntataVinceBookmaker = importoPuntata * (quotaPuntata - 1);
+            const puntataVinceBetfair = responsabilita - importoPuntata;
+            const puntataVinceTotale = puntataVinceBookmaker + puntataVinceBetfair;
+
+            const cond1Bookmaker = importoBonus - importoPuntata;
+            const cond1Betfair = responsabilita - responsabilitaCond1;
+            const cond1Totale = cond1Bookmaker + cond1Betfair;
+
+            const cond2Bookmaker = importoBonus - importoPuntata;
+            const cond2Betfair = responsabilita - responsabilitaCond2;
+            const cond2Totale = cond2Bookmaker + cond2Betfair;
+
+            const condNoBookmaker = -importoPuntata;
+            const condNoBetfair = responsabilita + responsabilitaCond1 + responsabilitaCond2;
+            const condNoTotale = condNoBookmaker + condNoBetfair;
+
+            // Aggiornamento tabella Scenari
+            document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
+            document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
+            document.getElementById('puntataVinceTotale').innerText = puntataVinceTotale.toFixed(2);
+
+            document.getElementById('cond1Bookmaker').innerText = cond1Bookmaker.toFixed(2);
+            document.getElementById('cond1Betfair').innerText = cond1Betfair.toFixed(2);
+            document.getElementById('cond1Totale').innerText = cond1Totale.toFixed(2);
+
+            document.getElementById('cond2Bookmaker').innerText = cond2Bookmaker.toFixed(2);
+            document.getElementById('cond2Betfair').innerText = cond2Betfair.toFixed(2);
+            document.getElementById('cond2Totale').innerText = cond2Totale.toFixed(2);
+
+            document.getElementById('condNoBookmaker').innerText = condNoBookmaker.toFixed(2);
+            document.getElementById('condNoBetfair').innerText = condNoBetfair.toFixed(2);
+            document.getElementById('condNoTotale').innerText = condNoTotale.toFixed(2);
         }
     </script>
 </body>
