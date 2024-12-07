@@ -105,16 +105,16 @@
                 <input type="number" id="quotaPuntata" placeholder="Inserisci la quota puntata" step="0.01">
             </div>
             <div class="input-group">
-                <label for="importoBonus">Importo Bonus Rimborso (€):</label>
-                <input type="number" id="importoBonus" placeholder="Inserisci il bonus rimborso" step="0.01">
-            </div>
-            <div class="input-group">
                 <label for="quotaBanca">Quota Banca:</label>
                 <input type="number" id="quotaBanca" placeholder="Inserisci la quota banca" step="0.01">
             </div>
             <div class="input-group">
                 <label for="commissioneBanca">Commissione Banca (%):</label>
                 <input type="number" id="commissioneBanca" placeholder="Inserisci la commissione banca" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="importoBonus">Importo Bonus Rimborso (€):</label>
+                <input type="number" id="importoBonus" placeholder="Inserisci il bonus rimborso" step="0.01">
             </div>
         </div>
 
@@ -135,6 +135,24 @@
                     <td id="puntataVinceBetfair">-</td>
                     <td id="puntataVinceTotale" class="highlight">-</td>
                 </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 sì e condizione 2 no</td>
+                    <td id="cond1Bookmaker">-</td>
+                    <td id="cond1Betfair">-</td>
+                    <td id="cond1Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizione 1 no e condizione 2 sì</td>
+                    <td id="cond2Bookmaker">-</td>
+                    <td id="cond2Betfair">-</td>
+                    <td id="cond2Totale" class="highlight">-</td>
+                </tr>
+                <tr>
+                    <td>Bancata vince, condizioni no</td>
+                    <td id="condNoBookmaker">-</td>
+                    <td id="condNoBetfair">-</td>
+                    <td id="condNoTotale" class="highlight">-</td>
+                </tr>
             </tbody>
         </table>
 
@@ -149,16 +167,44 @@
             var quotaPuntata = parseFloat(document.getElementById('quotaPuntata').value);
             var quotaBanca = parseFloat(document.getElementById('quotaBanca').value);
             var commissioneBanca = parseFloat(document.getElementById('commissioneBanca').value) / 100;
+            var importoBonus = parseFloat(document.getElementById('importoBonus').value);
 
             // Calcoli scenario: Puntata vince, condizioni no
-            var bookmaker = importoPuntata * (quotaPuntata - 1);
-            var betfair = -importoPuntata + (importoPuntata * quotaBanca * (1 - commissioneBanca));
-            var totale = bookmaker + betfair;
+            var bookmaker1 = importoPuntata * (quotaPuntata - 1);
+            var betfair1 = -importoPuntata + (importoPuntata * quotaBanca * (1 - commissioneBanca));
+            var totale1 = bookmaker1 + betfair1;
+
+            // Calcoli scenario: Bancata vince, condizione 1 sì e condizione 2 no
+            var bookmaker2 = importoBonus - importoPuntata;
+            var betfair2 = (importoPuntata * quotaBanca * (1 - commissioneBanca)) - importoBonus;
+            var totale2 = bookmaker2 + betfair2;
+
+            // Calcoli scenario: Bancata vince, condizione 1 no e condizione 2 sì
+            var bookmaker3 = importoBonus - importoPuntata;
+            var betfair3 = (importoPuntata * quotaBanca * (1 - commissioneBanca)) - importoBonus;
+            var totale3 = bookmaker3 + betfair3;
+
+            // Calcoli scenario: Bancata vince, condizioni no
+            var bookmaker4 = -importoPuntata;
+            var betfair4 = (importoPuntata * quotaBanca * (1 - commissioneBanca));
+            var totale4 = bookmaker4 + betfair4;
 
             // Aggiorna tabella
-            document.getElementById('puntataVinceBookmaker').innerText = '€ ' + bookmaker.toFixed(2);
-            document.getElementById('puntataVinceBetfair').innerText = '€ ' + betfair.toFixed(2);
-            document.getElementById('puntataVinceTotale').innerText = '€ ' + totale.toFixed(2);
+            document.getElementById('puntataVinceBookmaker').innerText = '€ ' + bookmaker1.toFixed(2);
+            document.getElementById('puntataVinceBetfair').innerText = '€ ' + betfair1.toFixed(2);
+            document.getElementById('puntataVinceTotale').innerText = '€ ' + totale1.toFixed(2);
+
+            document.getElementById('cond1Bookmaker').innerText = '€ ' + bookmaker2.toFixed(2);
+            document.getElementById('cond1Betfair').innerText = '€ ' + betfair2.toFixed(2);
+            document.getElementById('cond1Totale').innerText = '€ ' + totale2.toFixed(2);
+
+            document.getElementById('cond2Bookmaker').innerText = '€ ' + bookmaker3.toFixed(2);
+            document.getElementById('cond2Betfair').innerText = '€ ' + betfair3.toFixed(2);
+            document.getElementById('cond2Totale').innerText = '€ ' + totale3.toFixed(2);
+
+            document.getElementById('condNoBookmaker').innerText = '€ ' + bookmaker4.toFixed(2);
+            document.getElementById('condNoBetfair').innerText = '€ ' + betfair4.toFixed(2);
+            document.getElementById('condNoTotale').innerText = '€ ' + totale4.toFixed(2);
         }
     </script>
 </body>
