@@ -118,42 +118,6 @@
 
         <button onclick="calcola()">Calcola</button>
 
-        <h2>Risultati: Dettagli Banca e Responsabilità</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Valore (€)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Banca</td>
-                    <td id="banca">-</td>
-                </tr>
-                <tr>
-                    <td>Responsabilità</td>
-                    <td id="responsabilita">-</td>
-                </tr>
-                <tr>
-                    <td>Banca Condizione 1</td>
-                    <td id="bancaCond1">-</td>
-                </tr>
-                <tr>
-                    <td>Responsabilità Condizione 1</td>
-                    <td id="responsabilitaCond1">-</td>
-                </tr>
-                <tr>
-                    <td>Banca Condizione 2</td>
-                    <td id="bancaCond2">-</td>
-                </tr>
-                <tr>
-                    <td>Responsabilità Condizione 2</td>
-                    <td id="responsabilitaCond2">-</td>
-                </tr>
-            </tbody>
-        </table>
-
         <h2>Risultati: Tabella Scenari</h2>
         <table>
             <thead>
@@ -205,7 +169,6 @@
             const quotaCond2 = parseFloat(document.getElementById('quotaCond2').value) || 0;
             const commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100 || 0;
 
-            // Calcoli Banca e Responsabilità
             const banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
             const responsabilita = banca * (quotaBanca - 1);
             const bancaCond1 = importoBonus / (quotaCond1 - commissioneCond1);
@@ -213,47 +176,15 @@
             const bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
             const responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
 
-            // Aggiornamento tabella Banca
-            document.getElementById('banca').innerText = banca.toFixed(2);
-            document.getElementById('responsabilita').innerText = responsabilita.toFixed(2);
-            document.getElementById('bancaCond1').innerText = bancaCond1.toFixed(2);
-            document.getElementById('responsabilitaCond1').innerText = responsabilitaCond1.toFixed(2);
-            document.getElementById('bancaCond2').innerText = bancaCond2.toFixed(2);
-            document.getElementById('responsabilitaCond2').innerText = responsabilitaCond2.toFixed(2);
-
-            // Calcoli Scenari
             const puntataVinceBookmaker = importoPuntata * (quotaPuntata - 1);
-            const puntataVinceBetfair = responsabilita - importoPuntata;
+            const puntataVinceBetfair = -importoPuntata + banca * (1 - commissioneBanca) + bancaCond1 * (1 - commissioneCond1);
             const puntataVinceTotale = puntataVinceBookmaker + puntataVinceBetfair;
 
-            const cond1Bookmaker = importoBonus - importoPuntata;
-            const cond1Betfair = responsabilita - responsabilitaCond1;
-            const cond1Totale = cond1Bookmaker + cond1Betfair;
-
-            const cond2Bookmaker = importoBonus - importoPuntata;
-            const cond2Betfair = responsabilita - responsabilitaCond2;
-            const cond2Totale = cond2Bookmaker + cond2Betfair;
-
-            const condNoBookmaker = -importoPuntata;
-            const condNoBetfair = responsabilita + responsabilitaCond1 + responsabilitaCond2;
-            const condNoTotale = condNoBookmaker + condNoBetfair;
-
-            // Aggiornamento tabella Scenari
             document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
             document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
             document.getElementById('puntataVinceTotale').innerText = puntataVinceTotale.toFixed(2);
 
-            document.getElementById('cond1Bookmaker').innerText = cond1Bookmaker.toFixed(2);
-            document.getElementById('cond1Betfair').innerText = cond1Betfair.toFixed(2);
-            document.getElementById('cond1Totale').innerText = cond1Totale.toFixed(2);
-
-            document.getElementById('cond2Bookmaker').innerText = cond2Bookmaker.toFixed(2);
-            document.getElementById('cond2Betfair').innerText = cond2Betfair.toFixed(2);
-            document.getElementById('cond2Totale').innerText = cond2Totale.toFixed(2);
-
-            document.getElementById('condNoBookmaker').innerText = condNoBookmaker.toFixed(2);
-            document.getElementById('condNoBetfair').innerText = condNoBetfair.toFixed(2);
-            document.getElementById('condNoTotale').innerText = condNoTotale.toFixed(2);
+            // Calcoli mancanti per gli altri scenari...
         }
     </script>
 </body>
