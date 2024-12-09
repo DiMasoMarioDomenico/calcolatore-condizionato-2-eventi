@@ -10,15 +10,19 @@ function calcola() {
     const quotaCond2 = parseFloat(document.getElementById('quotaCond2').value) || 0;
     const commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100 || 0;
 
-    // Calcoli
+    // Calcolo Banca
     const banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
     const responsabilita = banca * (quotaBanca - 1);
+
+    // Calcolo Banca Condizione 1
     const bancaCond1 = importoBonus / (quotaCond1 - commissioneCond1);
     const responsabilitaCond1 = bancaCond1 * (quotaCond1 - 1);
+
+    // Calcolo Banca Condizione 2
     const bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
     const responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
 
-    // Calcolo per Puntata Vince, Condizioni No
+    // Calcolo scenari
     const puntataVinceBookmaker = importoPuntata * (quotaPuntata - 1);
     const puntataVinceBetfair =
         -responsabilita +
@@ -26,10 +30,18 @@ function calcola() {
         bancaCond2 * (1 - commissioneCond2);
     const puntataVinceTotale = puntataVinceBookmaker + puntataVinceBetfair;
 
-    // Aggiornamento della riga "Puntata Vince, Condizioni No"
+    // Aggiornamento della tabella "Puntata Vince, Condizioni No"
     document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
     document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
     document.getElementById('puntataVinceTotale').innerText = puntataVinceTotale.toFixed(2);
 
-    // TODO: Aggiungere calcoli per le altre righe degli scenari
+    // Aggiorna i risultati per Banca e Responsabilità
+    document.getElementById('banca').innerText = banca.toFixed(2);
+    document.getElementById('responsabilita').innerText = responsabilita.toFixed(2);
+    document.getElementById('bancaCond1').innerText = bancaCond1.toFixed(2);
+    document.getElementById('responsabilitaCond1').innerText = responsabilitaCond1.toFixed(2);
+    document.getElementById('bancaCond2').innerText = bancaCond2.toFixed(2);
+    document.getElementById('responsabilitaCond2').innerText = responsabilitaCond2.toFixed(2);
+
+    // TODO: Calcolare e aggiornare le altre righe della tabella scenari
 }
