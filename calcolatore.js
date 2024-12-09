@@ -35,6 +35,14 @@ function calcola() {
         responsabilitaCond1;
     const cond1Totale = cond1Bookmaker + cond1Betfair;
 
+    // Calcoli per "Bancata Vince, Condizione 1 No e Condizione 2 Sì"
+    const cond2Bookmaker = importoBonus - importoPuntata;
+    const cond2Betfair =
+        banca * (1 - commissioneBanca) +
+        bancaCond1 * (1 - commissioneCond1) -
+        responsabilitaCond2;
+    const cond2Totale = cond2Bookmaker + cond2Betfair;
+
     // Aggiorna riga "Puntata Vince, Condizioni No"
     document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
     document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
@@ -44,6 +52,11 @@ function calcola() {
     document.getElementById('cond1Bookmaker').innerText = cond1Bookmaker.toFixed(2);
     document.getElementById('cond1Betfair').innerText = cond1Betfair.toFixed(2);
     document.getElementById('cond1Totale').innerText = cond1Totale.toFixed(2);
+
+    // Aggiorna riga "Bancata Vince, Condizione 1 No e Condizione 2 Sì"
+    document.getElementById('cond2Bookmaker').innerText = cond2Bookmaker.toFixed(2);
+    document.getElementById('cond2Betfair').innerText = cond2Betfair.toFixed(2);
+    document.getElementById('cond2Totale').innerText = cond2Totale.toFixed(2);
 
     // Aggiorna tabella Banca e Responsabilità
     document.getElementById('banca').innerText = banca.toFixed(2);
