@@ -1,5 +1,4 @@
 function calcola() {
-    // Recupero input
     const importoPuntata = parseFloat(document.getElementById('importoPuntata').value) || 0;
     const quotaPuntata = parseFloat(document.getElementById('quotaPuntata').value) || 0;
     const quotaBanca = parseFloat(document.getElementById('quotaBanca').value) || 0;
@@ -10,32 +9,17 @@ function calcola() {
     const quotaCond2 = parseFloat(document.getElementById('quotaCond2').value) || 0;
     const commissioneCond2 = parseFloat(document.getElementById('commissioneCond2').value) / 100 || 0;
 
-    // Calcolo Banca
+    // Calcoli principali
     const banca = (importoPuntata * quotaPuntata) / (quotaBanca - commissioneBanca);
     const responsabilita = banca * (quotaBanca - 1);
 
-    // Calcolo Banca Condizione 1
     const bancaCond1 = importoBonus / (quotaCond1 - commissioneCond1);
     const responsabilitaCond1 = bancaCond1 * (quotaCond1 - 1);
 
-    // Calcolo Banca Condizione 2
     const bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
     const responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
 
-    // Calcolo scenari
-    const puntataVinceBookmaker = importoPuntata * (quotaPuntata - 1);
-    const puntataVinceBetfair =
-        -responsabilita +
-        bancaCond1 * (1 - commissioneCond1) +
-        bancaCond2 * (1 - commissioneCond2);
-    const puntataVinceTotale = puntataVinceBookmaker + puntataVinceBetfair;
-
-    // Aggiornamento della tabella "Puntata Vince, Condizioni No"
-    document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
-    document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
-    document.getElementById('puntataVinceTotale').innerText = puntataVinceTotale.toFixed(2);
-
-    // Aggiorna i risultati per Banca e Responsabilità
+    // Aggiorna tabella Banca e Responsabilità
     document.getElementById('banca').innerText = banca.toFixed(2);
     document.getElementById('responsabilita').innerText = responsabilita.toFixed(2);
     document.getElementById('bancaCond1').innerText = bancaCond1.toFixed(2);
@@ -43,5 +27,16 @@ function calcola() {
     document.getElementById('bancaCond2').innerText = bancaCond2.toFixed(2);
     document.getElementById('responsabilitaCond2').innerText = responsabilitaCond2.toFixed(2);
 
-    // TODO: Calcolare e aggiornare le altre righe della tabella scenari
+    // Calcoli per "Puntata Vince, Condizioni No"
+    const puntataVinceBookmaker = importoPuntata * (quotaPuntata - 1);
+    const puntataVinceBetfair =
+        -responsabilita +
+        bancaCond1 * (1 - commissioneCond1) +
+        bancaCond2 * (1 - commissioneCond2);
+    const puntataVinceTotale = puntataVinceBookmaker + puntataVinceBetfair;
+
+    // Aggiorna riga "Puntata Vince, Condizioni No"
+    document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
+    document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
+    document.getElementById('puntataVinceTotale').innerText = puntataVinceTotale.toFixed(2);
 }
