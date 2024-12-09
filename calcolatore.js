@@ -19,14 +19,6 @@ function calcola() {
     const bancaCond2 = importoBonus / (quotaCond2 - commissioneCond2);
     const responsabilitaCond2 = bancaCond2 * (quotaCond2 - 1);
 
-    // Aggiorna tabella Banca e Responsabilità
-    document.getElementById('banca').innerText = banca.toFixed(2);
-    document.getElementById('responsabilita').innerText = responsabilita.toFixed(2);
-    document.getElementById('bancaCond1').innerText = bancaCond1.toFixed(2);
-    document.getElementById('responsabilitaCond1').innerText = responsabilitaCond1.toFixed(2);
-    document.getElementById('bancaCond2').innerText = bancaCond2.toFixed(2);
-    document.getElementById('responsabilitaCond2').innerText = responsabilitaCond2.toFixed(2);
-
     // Calcoli per "Puntata Vince, Condizioni No"
     const puntataVinceBookmaker = importoPuntata * (quotaPuntata - 1);
     const puntataVinceBetfair =
@@ -35,8 +27,29 @@ function calcola() {
         bancaCond2 * (1 - commissioneCond2);
     const puntataVinceTotale = puntataVinceBookmaker + puntataVinceBetfair;
 
+    // Calcoli per "Bancata Vince, Condizione 1 Sì e Condizione 2 No"
+    const cond1Bookmaker = importoBonus - importoPuntata;
+    const cond1Betfair =
+        banca * (1 - commissioneBanca) +
+        bancaCond2 * (1 - commissioneCond2) -
+        responsabilitaCond1;
+    const cond1Totale = cond1Bookmaker + cond1Betfair;
+
     // Aggiorna riga "Puntata Vince, Condizioni No"
     document.getElementById('puntataVinceBookmaker').innerText = puntataVinceBookmaker.toFixed(2);
     document.getElementById('puntataVinceBetfair').innerText = puntataVinceBetfair.toFixed(2);
     document.getElementById('puntataVinceTotale').innerText = puntataVinceTotale.toFixed(2);
+
+    // Aggiorna riga "Bancata Vince, Condizione 1 Sì e Condizione 2 No"
+    document.getElementById('cond1Bookmaker').innerText = cond1Bookmaker.toFixed(2);
+    document.getElementById('cond1Betfair').innerText = cond1Betfair.toFixed(2);
+    document.getElementById('cond1Totale').innerText = cond1Totale.toFixed(2);
+
+    // Aggiorna tabella Banca e Responsabilità
+    document.getElementById('banca').innerText = banca.toFixed(2);
+    document.getElementById('responsabilita').innerText = responsabilita.toFixed(2);
+    document.getElementById('bancaCond1').innerText = bancaCond1.toFixed(2);
+    document.getElementById('responsabilitaCond1').innerText = responsabilitaCond1.toFixed(2);
+    document.getElementById('bancaCond2').innerText = bancaCond2.toFixed(2);
+    document.getElementById('responsabilitaCond2').innerText = responsabilitaCond2.toFixed(2);
 }
